@@ -14,7 +14,7 @@ import com.motivewave.platform.sdk.study.StudyHeader;
     id = "GC_TICK_AUDIT",
     rb = "study_examples.nls.strings",
     name = "GC Tick Audit",
-    desc = "Bounded visual diagnostic for actual tick callbacks",
+    desc = "Verifies live tick callbacks using rate-limited logging",
     overlay = false,
     studyOverlay = false
 )
@@ -25,9 +25,9 @@ public class GCTickAudit extends Study {
     }
 
     private static final String SIGNAL_PATH = "SIGNAL_PATH";
+    private static final long LOG_EVERY = 100;
 
     private long tickCount = 0;
-    private double signal = 0.0;
 
     @Override
     public void initialize(Defaults defaults) {
@@ -46,14 +46,12 @@ public class GCTickAudit extends Study {
         );
 
         var rd = createRD();
-
         rd.exportValue(
             new ValueDescriptor(
                 Values.TICK_SIGNAL,
                 "Tick Callback Signal"
             )
         );
-
         rd.declarePath(Values.TICK_SIGNAL, SIGNAL_PATH);
     }
 
@@ -70,22 +68,31 @@ public class GCTickAudit extends Study {
     public void onTick(DataContext ctx, Tick tick) {
         if (ctx == null || tick == null) return;
 
+        long count;
+
+        synchronized (this) {
+            tickCount++;
+            count = tickCount;
+        }
+
+        if (count % LOG_EVERY == 0) {
+            info(
+                "GC Tick Audit: callbacks=" + count
+                + ", price=" + tick.getPrice()
+                + ", volume=" + tick.getVolume()
+                + ", time=" + tick.getTime()
+            );
+        }
+
         DataSeries series = ctx.getDataSeries();
         if (series == null) return;
 
         int index = series.getEndIndex();
-
         if (index < 0 || index >= series.size()) return;
 
         synchronized (this) {
-            tickCount++;
-            signal = (tickCount % 2 == 0) ? 0.0 : 1.0;
-
-            series.setDouble(
-                index,
-                Values.TICK_SIGNAL,
-                signal
-            );
+            double signal = (count % 2 == 0) ? 0.0 : 1.0;
+            series.setDouble(index, Values.TICK_SIGNAL, signal);
         }
 
         notifyRangeUpdated();
