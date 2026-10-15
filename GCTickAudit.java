@@ -15,7 +15,7 @@ import com.motivewave.platform.sdk.study.StudyHeader;
     id = "GC_TICK_AUDIT",
     rb = "study_examples.nls.strings",
     name = "GC Tick Audit",
-    desc = "Validates live tick data through diagnostic logging",
+    desc = "Compares quote-validated tick volume with tick-side volume",
     overlay = false,
     studyOverlay = false
 )
@@ -26,9 +26,41 @@ public class GCTickAudit extends Study {
     }
 
     private static final String MARKER_PATH = "MARKER_PATH";
-    private static final long LOG_EVERY = 25;
+    private static final long SUMMARY_EVERY = 500;
+    private static final long SAMPLE_EVERY = 25;
+    private static final int MAX_OUTSIDE_EXAMPLES = 20;
+    private static final double PRICE_TOLERANCE = 0.000001;
 
-    private long tickCount = 0;
+    private long tickCount;
+    private long validVolumeTicks;
+    private long invalidVolumeTicks;
+
+    private long askFlagTicks;
+    private long bidFlagTicks;
+    private double flagAskVolume;
+    private double flagBidVolume;
+
+    private long strictAskTicks;
+    private long strictBidTicks;
+    private double strictAskVolume;
+    private double strictBidVolume;
+
+    private long unclassifiedTicks;
+    private double unclassifiedVolume;
+
+    private long outsideQuoteTicks;
+    private double outsideQuoteVolume;
+    private long outsideAskFlagTicks;
+    private long outsideBidFlagTicks;
+    private double outsideAskFlagVolume;
+    private double outsideBidFlagVolume;
+
+    private long insideSpreadTicks;
+    private long lockedQuoteTicks;
+    private long invalidQuoteTicks;
+    private long sideMismatches;
+
+    private int outsideExamplesLogged;
 
     @Override
     public void initialize(Defaults defaults) {
@@ -60,8 +92,9 @@ public class GCTickAudit extends Study {
 
     @Override
     protected void calculate(int index, DataContext ctx) {
-        DataSeries series = ctx.getDataSeries();
+        if (ctx == null) return;
 
+        DataSeries series = ctx.getDataSeries();
         if (series == null) return;
 
         series.setDouble(index, Values.TICK_MARKER, 0.0);
@@ -71,26 +104,195 @@ public class GCTickAudit extends Study {
     public void onTick(DataContext ctx, Tick tick) {
         if (ctx == null || tick == null) return;
 
-        long count;
+        double price = tick.getPrice();
+        double bid = tick.getBidPrice();
+        double ask = tick.getAskPrice();
+        double volume = tick.getVolume();
+        boolean askFlag = tick.isAskTick();
 
         synchronized (this) {
             tickCount++;
-            count = tickCount;
+
+            boolean validVolume =
+                Double.isFinite(volume) && volume > 0.0;
+
+            if (validVolume) {
+                validVolumeTicks++;
+
+                // Independent measurement: use the tick-side flag only.
+                if (askFlag) {
+                    askFlagTicks++;
+                    flagAskVolume += volume;
+                }
+                else {
+                    bidFlagTicks++;
+                    flagBidVolume += volume;
+                }
+            }
+            else {
+                invalidVolumeTicks++;
+            }
+
+            String priceClass = classifyPrice(price, bid, ask);
+
+            if ("LOCKED_QUOTE".equals(priceClass)) {
+                lockedQuoteTicks++;
+            }
+            else if ("INVALID_QUOTE".equals(priceClass)) {
+                invalidQuoteTicks++;
+            }
+            else if ("INSIDE_SPREAD".equals(priceClass)) {
+                insideSpreadTicks++;
+            }
+            else if ("OUTSIDE_QUOTE".equals(priceClass)) {
+                outsideQuoteTicks++;
+
+                if (validVolume) {
+                    outsideQuoteVolume += volume;
+
+                    if (askFlag) {
+                        outsideAskFlagTicks++;
+                        outsideAskFlagVolume += volume;
+                    }
+                    else {
+                        outsideBidFlagTicks++;
+                        outsideBidFlagVolume += volume;
+                    }
+                }
+
+                if (outsideExamplesLogged < MAX_OUTSIDE_EXAMPLES) {
+                    outsideExamplesLogged++;
+
+                    info(
+                        "GC Tick Outside Quote"
+                        + " | count=" + tickCount
+                        + " | time=" + tick.getTime()
+                        + " | price=" + price
+                        + " | bid=" + bid
+                        + " | ask=" + ask
+                        + " | volume=" + volume
+                        + " | isAskTick=" + askFlag
+                    );
+                }
+            }
+
+            // Strict measurement: require price and side flag to agree.
+            if (validVolume && "AT_ASK".equals(priceClass)) {
+                if (askFlag) {
+                    strictAskTicks++;
+                    strictAskVolume += volume;
+                }
+                else {
+                    sideMismatches++;
+                    unclassifiedTicks++;
+                    unclassifiedVolume += volume;
+                }
+            }
+            else if (validVolume && "AT_BID".equals(priceClass)) {
+                if (!askFlag) {
+                    strictBidTicks++;
+                    strictBidVolume += volume;
+                }
+                else {
+                    sideMismatches++;
+                    unclassifiedTicks++;
+                    unclassifiedVolume += volume;
+                }
+            }
+            else {
+                unclassifiedTicks++;
+
+                if (validVolume) {
+                    unclassifiedVolume += volume;
+                }
+            }
+
+            if (tickCount % SUMMARY_EVERY == 0) {
+                logSummary();
+            }
+            else if (tickCount % SAMPLE_EVERY == 0) {
+                info(
+                    "GC Tick Sample"
+                    + " | count=" + tickCount
+                    + " | time=" + tick.getTime()
+                    + " | price=" + price
+                    + " | bid=" + bid
+                    + " | ask=" + ask
+                    + " | volume=" + volume
+                    + " | priceClass=" + priceClass
+                    + " | isAskTick=" + askFlag
+                );
+            }
+        }
+    }
+
+    private String classifyPrice(double price, double bid, double ask) {
+        if (!Double.isFinite(price)
+            || !Double.isFinite(bid)
+            || !Double.isFinite(ask)
+            || bid <= 0.0
+            || ask <= 0.0
+            || bid > ask) {
+            return "INVALID_QUOTE";
         }
 
-        if (count % LOG_EVERY != 0) return;
+        if (Math.abs(ask - bid) <= PRICE_TOLERANCE) {
+            return "LOCKED_QUOTE";
+        }
+
+        if (Math.abs(price - ask) <= PRICE_TOLERANCE) {
+            return "AT_ASK";
+        }
+
+        if (Math.abs(price - bid) <= PRICE_TOLERANCE) {
+            return "AT_BID";
+        }
+
+        if (price > bid && price < ask) {
+            return "INSIDE_SPREAD";
+        }
+
+        return "OUTSIDE_QUOTE";
+    }
+
+    private void logSummary() {
+        double strictDelta = strictAskVolume - strictBidVolume;
+        double flagDelta = flagAskVolume - flagBidVolume;
+        double outsideFlagDelta =
+            outsideAskFlagVolume - outsideBidFlagVolume;
 
         info(
-            "GC Tick Audit"
-            + " | count=" + count
-            + " | time=" + tick.getTime()
-            + " | price=" + tick.getPrice()
-            + " | volume=" + tick.getVolume()
-            + " | bid=" + tick.getBidPrice()
-            + " | bidSize=" + tick.getBidSize()
-            + " | ask=" + tick.getAskPrice()
-            + " | askSize=" + tick.getAskSize()
-            + " | isAskTick=" + tick.isAskTick()
+            "GC Tick Audit Summary"
+            + " | ticks=" + tickCount
+            + " | validVolumeTicks=" + validVolumeTicks
+            + " | invalidVolumeTicks=" + invalidVolumeTicks
+
+            + " | strictAskTicks=" + strictAskTicks
+            + " | strictBidTicks=" + strictBidTicks
+            + " | strictAskVolume=" + strictAskVolume
+            + " | strictBidVolume=" + strictBidVolume
+            + " | strictDelta=" + strictDelta
+
+            + " | askFlagTicks=" + askFlagTicks
+            + " | bidFlagTicks=" + bidFlagTicks
+            + " | flagAskVolume=" + flagAskVolume
+            + " | flagBidVolume=" + flagBidVolume
+            + " | flagDelta=" + flagDelta
+
+            + " | outsideQuoteTicks=" + outsideQuoteTicks
+            + " | outsideQuoteVolume=" + outsideQuoteVolume
+            + " | outsideAskFlagTicks=" + outsideAskFlagTicks
+            + " | outsideBidFlagTicks=" + outsideBidFlagTicks
+            + " | outsideAskFlagVolume=" + outsideAskFlagVolume
+            + " | outsideBidFlagVolume=" + outsideBidFlagVolume
+            + " | outsideFlagDelta=" + outsideFlagDelta
+
+            + " | unclassifiedTicks=" + unclassifiedTicks
+            + " | unclassifiedVolume=" + unclassifiedVolume
+            + " | sideMismatches=" + sideMismatches
+            + " | insideSpread=" + insideSpreadTicks
+            + " | lockedQuote=" + lockedQuoteTicks
+            + " | invalidQuote=" + invalidQuoteTicks
         );
     }
 }
