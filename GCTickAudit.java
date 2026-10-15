@@ -15,7 +15,7 @@ import com.motivewave.platform.sdk.study.StudyHeader;
     id = "GC_TICK_AUDIT",
     rb = "study_examples.nls.strings",
     name = "GC Tick Audit",
-    desc = "Compares quote-validated tick volume with tick-side volume",
+    desc = "Audits tick volume, quote classification, and repeated-looking ticks",
     overlay = false,
     studyOverlay = false
 )
@@ -29,6 +29,7 @@ public class GCTickAudit extends Study {
     private static final long SUMMARY_EVERY = 500;
     private static final long SAMPLE_EVERY = 25;
     private static final int MAX_OUTSIDE_EXAMPLES = 20;
+    private static final int MAX_REPEAT_EXAMPLES = 20;
     private static final double PRICE_TOLERANCE = 0.000001;
 
     private long tickCount;
@@ -60,6 +61,17 @@ public class GCTickAudit extends Study {
     private long invalidQuoteTicks;
     private long sideMismatches;
 
+    // Consecutive identical-signature diagnostic.
+    private boolean havePreviousTick;
+    private long previousTime;
+    private double previousPrice;
+    private double previousBid;
+    private double previousAsk;
+    private double previousVolume;
+    private boolean previousAskFlag;
+
+    private long adjacentRepeatMatches;
+    private int repeatExamplesLogged;
     private int outsideExamplesLogged;
 
     @Override
@@ -109,6 +121,7 @@ public class GCTickAudit extends Study {
         double ask = tick.getAskPrice();
         double volume = tick.getVolume();
         boolean askFlag = tick.isAskTick();
+        long time = tick.getTime();
 
         synchronized (this) {
             tickCount++;
@@ -116,10 +129,14 @@ public class GCTickAudit extends Study {
             boolean validVolume =
                 Double.isFinite(volume) && volume > 0.0;
 
+            // Diagnostic only: never discard or merge a tick.
+            checkAdjacentRepeat(
+                time, price, bid, ask, volume, askFlag
+            );
+
             if (validVolume) {
                 validVolumeTicks++;
 
-                // Independent measurement: use the tick-side flag only.
                 if (askFlag) {
                     askFlagTicks++;
                     flagAskVolume += volume;
@@ -166,7 +183,7 @@ public class GCTickAudit extends Study {
                     info(
                         "GC Tick Outside Quote"
                         + " | count=" + tickCount
-                        + " | time=" + tick.getTime()
+                        + " | time=" + time
                         + " | price=" + price
                         + " | bid=" + bid
                         + " | ask=" + ask
@@ -176,7 +193,7 @@ public class GCTickAudit extends Study {
                 }
             }
 
-            // Strict measurement: require price and side flag to agree.
+            // Strict measurement: price and side flag must agree.
             if (validVolume && "AT_ASK".equals(priceClass)) {
                 if (askFlag) {
                     strictAskTicks++;
@@ -214,7 +231,7 @@ public class GCTickAudit extends Study {
                 info(
                     "GC Tick Sample"
                     + " | count=" + tickCount
-                    + " | time=" + tick.getTime()
+                    + " | time=" + time
                     + " | price=" + price
                     + " | bid=" + bid
                     + " | ask=" + ask
@@ -226,7 +243,64 @@ public class GCTickAudit extends Study {
         }
     }
 
-    private String classifyPrice(double price, double bid, double ask) {
+    private void checkAdjacentRepeat(
+        long time,
+        double price,
+        double bid,
+        double ask,
+        double volume,
+        boolean askFlag
+    ) {
+        boolean sameAsPrevious =
+            havePreviousTick
+            && time == previousTime
+            && sameDouble(price, previousPrice)
+            && sameDouble(bid, previousBid)
+            && sameDouble(ask, previousAsk)
+            && sameDouble(volume, previousVolume)
+            && askFlag == previousAskFlag;
+
+        if (sameAsPrevious) {
+            adjacentRepeatMatches++;
+
+            if (repeatExamplesLogged < MAX_REPEAT_EXAMPLES) {
+                repeatExamplesLogged++;
+
+                info(
+                    "GC Tick Adjacent Repeat Pattern"
+                    + " | count=" + tickCount
+                    + " | time=" + time
+                    + " | price=" + price
+                    + " | bid=" + bid
+                    + " | ask=" + ask
+                    + " | volume=" + volume
+                    + " | isAskTick=" + askFlag
+                    + " | matchingPrevious=true"
+                );
+            }
+        }
+
+        // Always remember the immediately preceding tick,
+        // including ticks with invalid volume or quotes.
+        previousTime = time;
+        previousPrice = price;
+        previousBid = bid;
+        previousAsk = ask;
+        previousVolume = volume;
+        previousAskFlag = askFlag;
+        havePreviousTick = true;
+    }
+
+    private boolean sameDouble(double a, double b) {
+        return Double.doubleToLongBits(a)
+            == Double.doubleToLongBits(b);
+    }
+
+    private String classifyPrice(
+        double price,
+        double bid,
+        double ask
+    ) {
         if (!Double.isFinite(price)
             || !Double.isFinite(bid)
             || !Double.isFinite(ask)
@@ -293,6 +367,9 @@ public class GCTickAudit extends Study {
             + " | insideSpread=" + insideSpreadTicks
             + " | lockedQuote=" + lockedQuoteTicks
             + " | invalidQuote=" + invalidQuoteTicks
+
+            + " | adjacentRepeatMatches=" + adjacentRepeatMatches
+            + " | repeatExamplesLogged=" + repeatExamplesLogged
         );
     }
 }
