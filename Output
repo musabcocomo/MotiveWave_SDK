@@ -1,32 +1,336 @@
-01:37:13.582 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=2 | type=DIFFERENT_TIMESTAMP | previousTime=1792096623573 | currentTime=1792096634558 | price=4190.39990234375 | bid=4190.2001953125 | ask=4190.39990234375 | volume=1.0 | isAskTick=true | matchingFieldRun=2
-01:37:26.677 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=6 | type=SAME_TIMESTAMP | previousTime=1792096647649 | currentTime=1792096647649 | price=4190.2001953125 | bid=4190.2001953125 | ask=4190.39990234375 | volume=1.0 | isAskTick=false | matchingFieldRun=2
-01:37:45.107 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=10 | type=SAME_TIMESTAMP | previousTime=1792096666080 | currentTime=1792096666080 | price=4190.2001953125 | bid=4190.10009765625 | ask=4190.2001953125 | volume=1.0 | isAskTick=true | matchingFieldRun=2
-01:37:53.966 WARNING ServiceBase::postQuote() no quotes posted for: 7923 ms
-01:38:06.545 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=13 | type=SAME_TIMESTAMP | previousTime=1792096687517 | currentTime=1792096687517 | price=4190.2998046875 | bid=4190.2001953125 | ask=4190.2998046875 | volume=1.0 | isAskTick=true | matchingFieldRun=2
-01:38:07.192 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=15 | type=DIFFERENT_TIMESTAMP | previousTime=1792096688164 | currentTime=1792096688165 | price=4190.39990234375 | bid=4190.2998046875 | ask=4190.39990234375 | volume=1.0 | isAskTick=true | matchingFieldRun=2
-01:38:16.429 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=22 | type=SAME_TIMESTAMP | previousTime=1792096697402 | currentTime=1792096697402 | price=4190.0 | bid=4190.0 | ask=4190.2001953125 | volume=1.0 | isAskTick=false | matchingFieldRun=2
-01:38:16.429 INFO GC Tick Audit: GC Tick Outside Quote | count=23 | time=1792096697402 | price=4189.89990234375 | bid=4190.0 | ask=4190.2001953125 | volume=1.0 | isAskTick=false
-01:38:16.429 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=24 | type=SAME_TIMESTAMP | previousTime=1792096697402 | currentTime=1792096697402 | price=4189.89990234375 | bid=4190.0 | ask=4190.2001953125 | volume=1.0 | isAskTick=false | matchingFieldRun=2
-01:38:16.429 INFO GC Tick Audit: GC Tick Outside Quote | count=24 | time=1792096697402 | price=4189.89990234375 | bid=4190.0 | ask=4190.2001953125 | volume=1.0 | isAskTick=false
-01:38:16.429 INFO GC Tick Audit: GC Tick Outside Quote | count=25 | time=1792096697402 | price=4189.7998046875 | bid=4190.0 | ask=4190.2001953125 | volume=1.0 | isAskTick=false
-01:38:16.429 INFO GC Tick Audit: GC Tick Sample | count=25 | time=1792096697402 | price=4189.7998046875 | bid=4190.0 | ask=4190.2001953125 | volume=1.0 | priceClass=OUTSIDE_QUOTE | isAskTick=false
-01:38:16.429 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=26 | type=SAME_TIMESTAMP | previousTime=1792096697402 | currentTime=1792096697402 | price=4189.7998046875 | bid=4190.0 | ask=4190.2001953125 | volume=1.0 | isAskTick=false | matchingFieldRun=2
-01:38:16.430 INFO GC Tick Audit: GC Tick Outside Quote | count=26 | time=1792096697402 | price=4189.7998046875 | bid=4190.0 | ask=4190.2001953125 | volume=1.0 | isAskTick=false
-01:38:45.843 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=32 | type=SAME_TIMESTAMP | previousTime=1792096726786 | currentTime=1792096726786 | price=4190.5 | bid=4190.39990234375 | ask=4190.5 | volume=1.0 | isAskTick=true | matchingFieldRun=2
-01:38:45.860 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=36 | type=SAME_TIMESTAMP | previousTime=1792096726812 | currentTime=1792096726812 | price=4190.7998046875 | bid=4190.60009765625 | ask=4190.7998046875 | volume=1.0 | isAskTick=true | matchingFieldRun=2
-01:38:49.717 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=39 | type=DIFFERENT_TIMESTAMP | previousTime=1792096730241 | currentTime=1792096730692 | price=4190.7998046875 | bid=4190.7998046875 | ask=4191.0 | volume=1.0 | isAskTick=false | matchingFieldRun=2
-01:39:07.368 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=47 | type=SAME_TIMESTAMP | previousTime=1792096748329 | currentTime=1792096748329 | price=4191.0 | bid=4190.89990234375 | ask=4191.0 | volume=1.0 | isAskTick=true | matchingFieldRun=2
-01:39:11.733 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=48 | type=DIFFERENT_TIMESTAMP | previousTime=1792096748329 | currentTime=1792096752691 | price=4191.0 | bid=4190.89990234375 | ask=4191.0 | volume=1.0 | isAskTick=true | matchingFieldRun=3
-01:39:11.733 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=50 | type=SAME_TIMESTAMP | previousTime=1792096752691 | currentTime=1792096752691 | price=4190.89990234375 | bid=4190.89990234375 | ask=4191.0 | volume=1.0 | isAskTick=false | matchingFieldRun=2
-01:39:11.733 INFO GC Tick Audit: GC Tick Sample | count=50 | time=1792096752691 | price=4190.89990234375 | bid=4190.89990234375 | ask=4191.0 | volume=1.0 | priceClass=AT_BID | isAskTick=false
-01:39:47.403 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=54 | type=DIFFERENT_TIMESTAMP | previousTime=1792096780929 | currentTime=1792096788366 | price=4190.7998046875 | bid=4190.60009765625 | ask=4190.7998046875 | volume=1.0 | isAskTick=true | matchingFieldRun=2
-01:39:48.452 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=56 | type=DIFFERENT_TIMESTAMP | previousTime=1792096788409 | currentTime=1792096789424 | price=4190.89990234375 | bid=4190.7998046875 | ask=4190.89990234375 | volume=1.0 | isAskTick=true | matchingFieldRun=2
-01:39:49.172 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=58 | type=SAME_TIMESTAMP | previousTime=1792096790137 | currentTime=1792096790137 | price=4190.7998046875 | bid=4190.7998046875 | ask=4190.89990234375 | volume=1.0 | isAskTick=false | matchingFieldRun=2
-01:40:04.796 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=63 | type=DIFFERENT_TIMESTAMP | previousTime=1792096802072 | currentTime=1792096805771 | price=4190.89990234375 | bid=4190.89990234375 | ask=4191.0 | volume=1.0 | isAskTick=false | matchingFieldRun=2
-01:40:18.616 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=70 | type=DIFFERENT_TIMESTAMP | previousTime=1792096812859 | currentTime=1792096819538 | price=4190.60009765625 | bid=4190.60009765625 | ask=4190.7998046875 | volume=1.0 | isAskTick=false | matchingFieldRun=2
-01:40:18.616 INFO GC Tick Audit: GC Tick Adjacent Pattern | tick=71 | type=SAME_TIMESTAMP | previousTime=1792096819538 | currentTime=1792096819538 | price=4190.60009765625 | bid=4190.60009765625 | ask=4190.7998046875 | volume=1.0 | isAskTick=false | matchingFieldRun=3
-01:40:18.616 INFO GC Tick Audit: GC Tick Outside Quote | count=72 | time=1792096819538 | price=4190.5 | bid=4190.60009765625 | ask=4190.7998046875 | volume=1.0 | isAskTick=false
-01:40:37.857 INFO GC Tick Audit: GC Tick Sample | count=75 | time=1792096838817 | price=4190.7998046875 | bid=4190.7001953125 | ask=4190.7998046875 | volume=1.0 | priceClass=AT_ASK | isAskTick=true
-01:40:49.156 WARNING ServiceBase::postQuote() no quotes posted for: 7640 ms
-01:42:29.625 INFO GC Tick Audit: GC Tick Sample | count=100 | time=1792096950600 | price=4190.60009765625 | bid=4190.60009765625 | ask=4190.7001953125 | volume=1.0 | priceClass=AT_BID | isAskTick=false
-01:42:46.602 INFO GC Tick Audit: GC Tick Outside Quote | count=107 | time=1792096967575 | price=4190.7001953125 | bid=4190.5 | ask=4190.60009765625 | volume=1.0 | isAskTick=true
+04:17:10.941 INFO GC Tick Audit: GC Tick Audit Example | type=ADJACENT_MATCH_DIFFERENT_TIMESTAMP | callback=4 | time=1792106230822 | price=4184.5 | bid=4184.5 | ask=4184.7998046875 | volume=1.0 | isAskTick=false
+04:17:11.187 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251230
+04:17:11.438 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251229
+04:17:11.689 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251228
+04:17:11.941 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251227
+04:17:12.192 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251226
+04:17:12.444 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251225
+04:17:12.695 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251224
+04:17:12.947 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251223
+04:17:13.199 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251222
+04:17:13.450 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251221
+04:17:13.701 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251220
+04:17:13.954 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251219
+04:17:14.206 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251218
+04:17:14.457 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251217
+04:17:14.709 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251216
+04:17:14.960 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251215
+04:17:15.212 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251214
+04:17:15.463 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251213
+04:17:15.715 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251212
+04:17:15.968 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251211
+04:17:16.219 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251210
+04:17:16.471 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251209
+04:17:16.722 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251208
+04:17:16.974 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251207
+04:17:17.226 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251206
+04:17:17.477 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251205
+04:17:17.729 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251204
+04:17:17.981 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251203
+04:17:18.233 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251202
+04:17:18.483 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251201
+04:17:18.735 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251130
+04:17:18.986 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251129
+04:17:19.238 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251128
+04:17:19.490 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251127
+04:17:19.742 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251126
+04:17:19.994 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251125
+04:17:20.245 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251124
+04:17:20.496 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251123
+04:17:20.747 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251122
+04:17:20.998 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251121
+04:17:21.249 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251120
+04:17:21.502 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251119
+04:17:21.753 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251118
+04:17:22.004 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251117
+04:17:22.255 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251116
+04:17:22.507 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251115
+04:17:22.698 INFO GC Tick Audit: GC Tick Audit Example | type=OUTSIDE_QUOTE | callback=8 | time=1792106242587 | price=4184.2998046875 | bid=4184.39990234375 | ask=4184.60009765625 | volume=1.0 | isAskTick=false
+04:17:22.758 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251114
+04:17:23.009 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251113
+04:17:23.261 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251112
+04:17:23.511 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251111
+04:17:23.763 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251110
+04:17:24.013 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251109
+04:17:24.063 INFO GC Tick Audit: GC Tick Audit Example | type=ADJACENT_MATCH_SAME_TIMESTAMP | callback=11 | time=1792106243955 | price=4184.2001953125 | bid=4184.2001953125 | ask=4184.39990234375 | volume=1.0 | isAskTick=false
+04:17:24.265 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251108
+04:17:24.516 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251107
+04:17:24.741 INFO GC Tick Audit: GC Tick Audit Example | type=ADJACENT_MATCH_SAME_TIMESTAMP | callback=13 | time=1792106244633 | price=4184.10009765625 | bid=4184.10009765625 | ask=4184.39990234375 | volume=1.0 | isAskTick=false
+04:17:24.768 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251106
+04:17:25.018 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251105
+04:17:25.271 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251104
+04:17:25.522 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251103
+04:17:25.773 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251102
+04:17:26.025 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251101
+04:17:26.277 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251031
+04:17:26.529 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251030
+04:17:26.780 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251029
+04:17:27.032 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251028
+04:17:27.284 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251027
+04:17:27.535 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251026
+04:17:27.786 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251025
+04:17:28.037 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251024
+04:17:28.289 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251023
+04:17:28.541 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251022
+04:17:28.793 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251021
+04:17:29.044 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251020
+04:17:29.296 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251019
+04:17:29.548 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251018
+04:17:29.800 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251017
+04:17:30.051 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251016
+04:17:30.303 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251015
+04:17:30.556 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251014
+04:17:30.807 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251013
+04:17:31.058 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251012
+04:17:31.311 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251011
+04:17:31.561 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251010
+04:17:31.813 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251009
+04:17:32.064 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251008
+04:17:32.316 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251007
+04:17:32.485 INFO GC Tick Audit: GC Tick Audit Example | type=ADJACENT_MATCH_DIFFERENT_TIMESTAMP | callback=14 | time=1792106252380 | price=4184.10009765625 | bid=4184.10009765625 | ask=4184.39990234375 | volume=1.0 | isAskTick=false
+04:17:32.567 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251006
+04:17:32.818 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251005
+04:17:33.070 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251004
+04:17:33.320 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251003
+04:17:33.572 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251002
+04:17:33.823 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20251001
+04:17:34.075 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250930
+04:17:34.326 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250929
+04:17:34.577 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250928
+04:17:34.830 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250927
+04:17:35.082 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250926
+04:17:35.344 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250925
+04:17:35.596 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250924
+04:17:35.847 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250923
+04:17:36.098 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250922
+04:17:36.349 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250921
+04:17:36.601 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250920
+04:17:36.853 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250919
+04:17:37.104 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250918
+04:17:37.355 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250917
+04:17:37.606 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250916
+04:17:37.857 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250915
+04:17:38.110 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250914
+04:17:38.360 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250913
+04:17:38.611 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250912
+04:17:38.863 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250911
+04:17:39.114 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250910
+04:17:39.365 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250909
+04:17:39.618 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250908
+04:17:39.869 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250907
+04:17:40.121 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250906
+04:17:40.372 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250905
+04:17:40.624 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250904
+04:17:40.875 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250903
+04:17:41.127 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250902
+04:17:41.377 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250901
+04:17:41.629 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250831
+04:17:41.882 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250830
+04:17:42.132 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250829
+04:17:42.384 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250828
+04:17:42.635 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250827
+04:17:42.887 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250826
+04:17:43.138 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250825
+04:17:43.389 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250824
+04:17:43.640 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250823
+04:17:43.893 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250822
+04:17:44.144 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250821
+04:17:44.396 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250820
+04:17:44.648 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250819
+04:17:44.900 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250818
+04:17:45.150 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250817
+04:17:45.402 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250816
+04:17:45.510 INFO GC Tick Audit: GC Tick Audit Example | type=ADJACENT_MATCH_SAME_TIMESTAMP | callback=18 | time=1792106265406 | price=4184.10009765625 | bid=4184.0 | ask=4184.10009765625 | volume=1.0 | isAskTick=true
+04:17:45.653 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250815
+04:17:45.905 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250814
+04:17:46.156 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250813
+04:17:46.407 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250812
+04:17:46.659 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250811
+04:17:46.911 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250810
+04:17:47.164 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250809
+04:17:47.415 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250808
+04:17:47.666 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250807
+04:17:47.918 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250806
+04:17:48.169 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250805
+04:17:48.419 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250804
+04:17:48.671 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250803
+04:17:48.923 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250802
+04:17:49.175 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250801
+04:17:49.396 INFO GC Tick Audit: GC Tick Audit Example | type=ADJACENT_MATCH_SAME_TIMESTAMP | callback=22 | time=1792106269287 | price=4184.2001953125 | bid=4184.10009765625 | ask=4184.2001953125 | volume=1.0 | isAskTick=true
+04:17:49.402 INFO GC Tick Audit: GC Tick Audit Example | type=ADJACENT_MATCH_SAME_TIMESTAMP | callback=24 | time=1792106269288 | price=4184.2998046875 | bid=4184.10009765625 | ask=4184.2998046875 | volume=1.0 | isAskTick=true
+04:17:49.403 INFO GC Tick Audit: GC Tick Audit Example | type=ADJACENT_MATCH_SAME_TIMESTAMP | callback=25 | time=1792106269288 | price=4184.2998046875 | bid=4184.10009765625 | ask=4184.2998046875 | volume=1.0 | isAskTick=true
+04:17:49.409 INFO GC Tick Audit: GC Tick Sample | callback=25 | time=1792106269288 | price=4184.2998046875 | bid=4184.10009765625 | ask=4184.2998046875 | volume=1.0 | isAskTick=true | classification=AT_ASK
+04:17:49.411 INFO GC Tick Audit: GC Tick Audit Example | type=ADJACENT_MATCH_SAME_TIMESTAMP | callback=26 | time=1792106269288 | price=4184.2998046875 | bid=4184.10009765625 | ask=4184.2998046875 | volume=1.0 | isAskTick=true
+04:17:49.411 INFO GC Tick Audit: GC Tick Audit Example | type=OUTSIDE_QUOTE | callback=27 | time=1792106269288 | price=4184.39990234375 | bid=4184.10009765625 | ask=4184.2998046875 | volume=1.0 | isAskTick=true
+04:17:49.412 INFO GC Tick Audit: GC Tick Audit Example | type=OUTSIDE_QUOTE | callback=28 | time=1792106269288 | price=4184.5 | bid=4184.10009765625 | ask=4184.2998046875 | volume=1.0 | isAskTick=true
+04:17:49.427 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250731
+04:17:49.435 INFO GC Tick Audit: GC Tick Audit Example | type=ADJACENT_MATCH_SAME_TIMESTAMP | callback=30 | time=1792106269291 | price=4184.7001953125 | bid=4184.2998046875 | ask=4184.7001953125 | volume=1.0 | isAskTick=true
+04:17:49.435 INFO GC Tick Audit: GC Tick Audit Example | type=OUTSIDE_QUOTE | callback=31 | time=1792106269291 | price=4184.7998046875 | bid=4184.2998046875 | ask=4184.7001953125 | volume=1.0 | isAskTick=true
+04:17:49.436 INFO GC Tick Audit: GC Tick Audit Example | type=OUTSIDE_QUOTE | callback=33 | time=1792106269291 | price=4184.89990234375 | bid=4184.2998046875 | ask=4184.7998046875 | volume=1.0 | isAskTick=true
+04:17:49.436 INFO GC Tick Audit: GC Tick Audit Example | type=OUTSIDE_QUOTE | callback=34 | time=1792106269291 | price=4184.89990234375 | bid=4184.2998046875 | ask=4184.7998046875 | volume=1.0 | isAskTick=true
+04:17:49.436 INFO GC Tick Audit: GC Tick Audit Example | type=OUTSIDE_QUOTE | callback=35 | time=1792106269291 | price=4184.89990234375 | bid=4184.2998046875 | ask=4184.7998046875 | volume=1.0 | isAskTick=true
+04:17:49.436 INFO GC Tick Audit: GC Tick Audit Example | type=OUTSIDE_QUOTE | callback=36 | time=1792106269291 | price=4185.0 | bid=4184.2998046875 | ask=4184.7998046875 | volume=1.0 | isAskTick=true
+04:17:49.678 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250730
+04:17:49.929 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250729
+04:17:50.181 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250728
+04:17:50.432 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250727
+04:17:50.683 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250726
+04:17:50.934 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250725
+04:17:51.186 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250724
+04:17:51.438 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250723
+04:17:51.701 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250722
+04:17:51.953 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250721
+04:17:52.205 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250720
+04:17:52.456 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250719
+04:17:52.707 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250718
+04:17:52.959 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250717
+04:17:53.211 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250716
+04:17:53.463 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250715
+04:17:53.715 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250714
+04:17:53.966 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250713
+04:17:54.217 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250712
+04:17:54.467 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250711
+04:17:54.718 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250710
+04:17:54.969 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250709
+04:17:55.222 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250708
+04:17:55.473 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250707
+04:17:55.725 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250706
+04:17:55.977 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250705
+04:17:56.228 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250704
+04:17:56.480 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250703
+04:17:56.731 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250702
+04:17:56.982 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250701
+04:17:57.234 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250630
+04:17:57.485 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250629
+04:17:57.736 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250628
+04:17:57.988 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250627
+04:17:58.239 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250626
+04:17:58.490 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250625
+04:17:58.742 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250624
+04:17:58.993 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250623
+04:17:59.244 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250622
+04:17:59.495 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250621
+04:17:59.746 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250620
+04:17:59.997 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250619
+04:18:00.248 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250618
+04:18:00.499 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250617
+04:18:00.751 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250616
+04:18:01.003 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250615
+04:18:01.254 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250614
+04:18:01.505 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250613
+04:18:01.757 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250612
+04:18:02.009 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250611
+04:18:02.260 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250610
+04:18:02.512 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250609
+04:18:02.763 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250608
+04:18:03.015 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250607
+04:18:03.267 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250606
+04:18:03.518 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250605
+04:18:03.769 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250604
+04:18:04.020 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250603
+04:18:04.272 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250602
+04:18:04.523 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250601
+04:18:04.774 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250531
+04:18:05.026 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250530
+04:18:05.278 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250529
+04:18:05.529 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250528
+04:18:05.781 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250527
+04:18:06.032 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250526
+04:18:06.284 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250525
+04:18:06.535 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250524
+04:18:06.787 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250523
+04:18:07.038 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250522
+04:18:07.289 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250521
+04:18:07.440 INFO GC Tick Audit: GC Tick Audit Example | type=OUTSIDE_QUOTE | callback=46 | time=1792106287321 | price=4184.89990234375 | bid=4184.60009765625 | ask=4184.7998046875 | volume=1.0 | isAskTick=true
+04:18:07.441 INFO GC Tick Audit: GC Tick Audit Example | type=OUTSIDE_QUOTE | callback=47 | time=1792106287321 | price=4184.89990234375 | bid=4184.60009765625 | ask=4184.7998046875 | volume=1.0 | isAskTick=true
+04:18:07.496 INFO GC Tick Audit: GC Tick Sample | callback=50 | time=1792106287393 | price=4184.89990234375 | bid=4184.89990234375 | ask=4185.10009765625 | volume=1.0 | isAskTick=false | classification=AT_BID
+04:18:07.540 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250520
+04:18:07.791 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250519
+04:18:08.042 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250518
+04:18:08.293 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250517
+04:18:08.544 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250516
+04:18:08.795 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250515
+04:18:09.046 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250514
+04:18:09.297 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250513
+04:18:09.548 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250512
+04:18:09.799 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250511
+04:18:10.051 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250510
+04:18:10.302 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250509
+04:18:10.554 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250508
+04:18:10.805 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250507
+04:18:11.057 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250506
+04:18:11.308 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250505
+04:18:11.559 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250504
+04:18:11.811 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250503
+04:18:12.062 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250502
+04:18:12.313 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250501
+04:18:12.565 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250430
+04:18:12.816 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250429
+04:18:13.067 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250428
+04:18:13.319 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250427
+04:18:13.571 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250426
+04:18:13.824 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250425
+04:18:14.075 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250424
+04:18:14.327 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250423
+04:18:14.578 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250422
+04:18:14.830 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250421
+04:18:15.081 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250420
+04:18:15.334 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250419
+04:18:15.586 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250418
+04:18:15.837 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250417
+04:18:16.088 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250416
+04:18:16.339 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250415
+04:18:16.591 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250414
+04:18:16.842 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250413
+04:18:17.094 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250412
+04:18:17.346 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250411
+04:18:17.597 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250410
+04:18:17.850 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250409
+04:18:18.101 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250408
+04:18:18.353 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250407
+04:18:18.604 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250406
+04:18:18.854 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250405
+04:18:19.106 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250404
+04:18:19.356 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250403
+04:18:19.608 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250402
+04:18:19.859 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250401
+04:18:20.110 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250331
+04:18:20.362 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250330
+04:18:20.614 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250329
+04:18:20.865 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250328
+04:18:21.117 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250327
+04:18:21.368 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250326
+04:18:21.621 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250325
+04:18:21.872 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250324
+04:18:22.123 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250323
+04:18:22.374 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250322
+04:18:22.625 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250321
+04:18:22.877 INFO RithmicService::onHistDateList() requesting executions: LDI025-CUN80W57-TEST001 20250320
+04:20:22.029 INFO GC Tick Audit: GC Tick Sample | callback=75 | time=1792106421920 | price=4184.0 | bid=4183.7998046875 | ask=4184.0 | volume=1.0 | isAskTick=true | classification=AT_ASK
+04:23:42.093 INFO GC Tick Audit: GC Tick Sample | callback=100 | time=1792106621992 | price=4183.7001953125 | bid=4183.7001953125 | ask=4184.0 | volume=1.0 | isAskTick=false | classification=AT_BID
+04:25:04.983 INFO GC Tick Audit: GC Tick Sample | callback=125 | time=1792106704871 | price=4183.5 | bid=4183.7001953125 | ask=4183.89990234375 | volume=1.0 | isAskTick=false | classification=OUTSIDE_QUOTE
+04:25:06.270 INFO GC Tick Audit: GC Tick Sample | callback=150 | time=1792106706163 | price=4183.0 | bid=4183.0 | ask=4183.2998046875 | volume=1.0 | isAskTick=false | classification=AT_BID
+04:25:28.548 INFO GC Tick Audit: GC Tick Sample | callback=175 | time=1792106728429 | price=4183.10009765625 | bid=4182.7001953125 | ask=4183.0 | volume=2.0 | isAskTick=true | classification=OUTSIDE_QUOTE
+04:26:35.078 INFO GC Tick Audit: GC Tick Sample | callback=200 | time=1792106794968 | price=4182.89990234375 | bid=4182.7001953125 | ask=4182.89990234375 | volume=1.0 | isAskTick=true | classification=AT_ASK
+04:27:13.029 INFO GC Tick Audit: GC Tick Sample | callback=225 | time=1792106832890 | price=4183.2001953125 | bid=4183.2001953125 | ask=4183.39990234375 | volume=1.0 | isAskTick=false | classification=AT_BID
+04:28:55.101 INFO GC Tick Audit: GC Tick Sample | callback=250 | time=1792106934971 | price=4183.39990234375 | bid=4183.10009765625 | ask=4183.39990234375 | volume=2.0 | isAskTick=true | classification=AT_ASK
+04:28:56.568 INFO GC Tick Audit: GC Tick Sample | callback=275 | time=1792106936380 | price=4183.2998046875 | bid=4183.2998046875 | ask=4183.39990234375 | volume=1.0 | isAskTick=false | classification=AT_BID
+04:31:02.433 INFO GC Tick Audit: GC Tick Sample | callback=300 | time=1792107062340 | price=4183.10009765625 | bid=4182.7998046875 | ask=4183.10009765625 | volume=2.0 | isAskTick=true | classification=AT_ASK
+04:31:54.240 INFO GC Tick Audit: GC Tick Sample | callback=325 | time=1792107114126 | price=4183.10009765625 | bid=4183.10009765625 | ask=4183.2998046875 | volume=1.0 | isAskTick=false | classification=AT_BID
+04:32:31.083 INFO GC Tick Audit: GC Tick Sample | callback=350 | time=1792107150985 | price=4182.7998046875 | bid=4182.89990234375 | ask=4183.2001953125 | volume=1.0 | isAskTick=false | classification=OUTSIDE_QUOTE
+04:32:31.161 INFO GC Tick Audit: GC Tick Sample | callback=375 | time=1792107150993 | price=4182.60009765625 | bid=4182.60009765625 | ask=4182.7001953125 | volume=1.0 | isAskTick=false | classification=AT_BID
+04:33:11.124 INFO GC Tick Audit: GC Tick Sample | callback=400 | time=1792107191024 | price=4182.2998046875 | bid=4182.2998046875 | ask=4182.5 | volume=1.0 | isAskTick=false | classification=AT_BID
+PPSRenderer: scenario.effect - createShader: LinearConvolveShadow_20
+04:33:47.122 INFO GC Tick Audit: GC Tick Sample | callback=425 | time=1792107227026 | price=4182.7001953125 | bid=4182.60009765625 | ask=4182.7001953125 | volume=1.0 | isAskTick=true | classification=AT_ASK
+04:34:11.826 INFO GC Tick Audit: GC Tick Sample | callback=450 | time=1792107251682 | price=4182.7001953125 | bid=4182.7001953125 | ask=4183.0 | volume=1.0 | isAskTick=false | classification=AT_BID
+04:34:18.116 INFO GC Tick Audit: GC Tick Sample | callback=475 | time=1792107258015 | price=4182.7001953125 | bid=4182.60009765625 | ask=4182.7001953125 | volume=1.0 | isAskTick=true | classification=AT_ASK
+04:34:48.188 INFO GC Tick Audit: GC Tick Audit Summary | callbacks=500 | validVolumeCallbacks=500 | invalidVolumeCallbacks=0 | askFlagCount=254 | bidFlagCount=246 | askFlagVolume=331.0 | bidFlagVolume=268.0 | flagDelta=63.0 | strictAskCount=222 | strictBidCount=227 | strictAskVolume=255.0 | strictBidVolume=248.0 | strictDelta=7.0 | unclassifiedCount=51 | unclassifiedVolume=96.0 | sideMismatchCount=0 | outsideQuoteCount=51 | outsideQuoteVolume=96.0 | insideSpreadCount=0 | lockedQuoteCount=0 | invalidQuoteCount=0 | matchingAdjacentCount=169 | sameTimestampMatches=129 | differentTimestampMatches=40 | currentMatchRun=1 | longestMatchRun=6
+04:35:06.348 INFO GC Tick Audit: GC Tick Sample | callback=525 | time=1792107306261 | price=4182.60009765625 | bid=4182.39990234375 | ask=4182.60009765625 | volume=1.0 | isAskTick=true | classification=AT_ASK
+04:35:17.033 INFO GC Tick Audit: GC Tick Sample | callback=550 | time=1792107316921 | price=4182.60009765625 | bid=4182.60009765625 | ask=4182.7001953125 | volume=1.0 | isAskTick=false | classification=AT_BID
+04:35:22.311 INFO GC Tick Audit: GC Tick Sample | callback=575 | time=1792107322151 | price=4182.10009765625 | bid=4182.10009765625 | ask=4182.2998046875 | volume=1.0 | isAskTick=false | classification=AT_BID
+04:35:43.310 INFO GC Tick Audit: GC Tick Sample | callback=600 | time=1792107343222 | price=4180.89990234375 | bid=4180.89990234375 | ask=4181.2001953125 | volume=1.0 | isAskTick=false | classification=AT_BID
+04:36:39.767 INFO GC Tick Audit: GC Tick Sample | callback=625 | time=1792107399671 | price=4181.2001953125 | bid=4181.0 | ask=4181.2001953125 | volume=1.0 | isAskTick=true | classification=AT_ASK
+04:36:53.176 INFO GC Tick Audit: GC Tick Sample | callback=650 | time=1792107413074 | price=4181.39990234375 | bid=4181.39990234375 | ask=4181.5 | volume=1.0 | isAskTick=false | classification=AT_BID
+04:36:53.286 INFO GC Tick Audit: GC Tick Sample | callback=675 | time=1792107413134 | price=4181.5 | bid=4181.5 | ask=4181.7001953125 | volume=1.0 | isAskTick=false | classification=AT_BID
+04:37:06.138 INFO GC Tick Audit: GC Tick Sample | callback=700 | time=1792107426031 | price=4181.2998046875 | bid=4181.2001953125 | ask=4181.2998046875 | volume=1.0 | isAskTick=true | classification=AT_ASK
+04:38:03.472 INFO GC Tick Audit: GC Tick Sample | callback=725 | time=1792107483373 | price=4181.0 | bid=4180.7001953125 | ask=4181.0 | volume=1.0 | isAskTick=true | classification=AT_ASK
