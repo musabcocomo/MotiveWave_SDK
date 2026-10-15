@@ -1,11 +1,8 @@
 package study_examples;
 
 import com.motivewave.platform.sdk.common.DataContext;
-import com.motivewave.platform.sdk.common.DataSeries;
 import com.motivewave.platform.sdk.common.Defaults;
 import com.motivewave.platform.sdk.common.Tick;
-import com.motivewave.platform.sdk.common.desc.PathDescriptor;
-import com.motivewave.platform.sdk.common.desc.ValueDescriptor;
 import com.motivewave.platform.sdk.study.Study;
 import com.motivewave.platform.sdk.study.StudyHeader;
 
@@ -14,54 +11,42 @@ import com.motivewave.platform.sdk.study.StudyHeader;
     id = "GC_TICK_AUDIT",
     rb = "study_examples.nls.strings",
     name = "GC Tick Audit",
-    desc = "Audits tick volume, quote classification, and repeated-looking ticks",
+    desc = "Audits incoming GC trade ticks and attached bid/ask quotes",
     overlay = false,
     studyOverlay = false
 )
 public class GCTickAudit extends Study {
 
-    enum Values {
-        TICK_MARKER
-    }
-
-    private static final String MARKER_PATH = "MARKER_PATH";
     private static final long SUMMARY_EVERY = 500;
     private static final long SAMPLE_EVERY = 25;
-    private static final int MAX_OUTSIDE_EXAMPLES = 20;
-    private static final int MAX_REPEAT_EXAMPLES = 20;
+    private static final int MAX_ANOMALY_EXAMPLES = 10;
     private static final double PRICE_TOLERANCE = 0.000001;
 
-    private long tickCount;
-    private long validVolumeTicks;
-    private long invalidVolumeTicks;
+    private long callbackCount;
+    private long validVolumeCount;
+    private long invalidVolumeCount;
 
-    private long askFlagTicks;
-    private long bidFlagTicks;
-    private double flagAskVolume;
-    private double flagBidVolume;
+    private long askFlagCount;
+    private long bidFlagCount;
+    private double askFlagVolume;
+    private double bidFlagVolume;
 
-    private long strictAskTicks;
-    private long strictBidTicks;
+    private long strictAskCount;
+    private long strictBidCount;
     private double strictAskVolume;
     private double strictBidVolume;
 
-    private long unclassifiedTicks;
+    private long unclassifiedCount;
     private double unclassifiedVolume;
+    private long sideMismatchCount;
 
-    private long outsideQuoteTicks;
+    private long outsideQuoteCount;
     private double outsideQuoteVolume;
-    private long outsideAskFlagTicks;
-    private long outsideBidFlagTicks;
-    private double outsideAskFlagVolume;
-    private double outsideBidFlagVolume;
+    private long insideSpreadCount;
+    private long lockedQuoteCount;
+    private long invalidQuoteCount;
 
-    private long insideSpreadTicks;
-    private long lockedQuoteTicks;
-    private long invalidQuoteTicks;
-    private long sideMismatches;
-
-    // Previous tick fields for adjacent-pattern diagnostics.
-    private boolean havePreviousTick;
+    private boolean havePrevious;
     private long previousTime;
     private double previousPrice;
     private double previousBid;
@@ -69,61 +54,20 @@ public class GCTickAudit extends Study {
     private double previousVolume;
     private boolean previousAskFlag;
 
-    // Adjacent matches with identical market fields and the same timestamp.
-    private long adjacentSameTimestampMatches;
+    private long matchingAdjacentCount;
+    private long sameTimestampMatchCount;
+    private long differentTimestampMatchCount;
+    private long currentMatchRun;
+    private long longestMatchRun;
 
-    // Adjacent matches with identical market fields but different timestamps.
-    private long adjacentDifferentTimestampMatches;
-
-    // All adjacent matches on market fields, regardless of timestamp.
-    private long adjacentMatchingFieldMatches;
-
-    // Consecutive run length of matching market fields.
-    private long currentMatchingFieldRun;
-    private long longestMatchingFieldRun;
-    private long longestRunEndingAtTick;
-    private long longestRunStartTime;
-    private long longestRunEndTime;
-
-    private int repeatExamplesLogged;
     private int outsideExamplesLogged;
+    private int repeatExamplesLogged;
 
     @Override
     public void initialize(Defaults defaults) {
-        var sd = createSD();
-        var tab = sd.addTab("General");
-        var group = tab.addGroup("Tick Audit");
-
-        group.addRow(
-            new PathDescriptor(
-                MARKER_PATH,
-                "Diagnostic Line",
-                defaults.getLineColor(),
-                2.0f,
-                null
-            )
-        );
-
-        var rd = createRD();
-
-        rd.exportValue(
-            new ValueDescriptor(
-                Values.TICK_MARKER,
-                "Tick Audit Marker"
-            )
-        );
-
-        rd.declarePath(Values.TICK_MARKER, MARKER_PATH);
-    }
-
-    @Override
-    protected void calculate(int index, DataContext ctx) {
-        if (ctx == null) return;
-
-        DataSeries series = ctx.getDataSeries();
-        if (series == null) return;
-
-        series.setDouble(index, Values.TICK_MARKER, 0.0);
+        // Required by MotiveWave: create the settings descriptor.
+        // No custom study settings or dummy chart plots are needed.
+        createSD();
     }
 
     @Override
@@ -138,204 +82,125 @@ public class GCTickAudit extends Study {
         long time = tick.getTime();
 
         synchronized (this) {
-            tickCount++;
+            callbackCount++;
 
             boolean validVolume =
                 Double.isFinite(volume) && volume > 0.0;
 
-            // Diagnostic only: never discard, merge, or alter a tick.
-            checkAdjacentPatterns(
+            String classification = classify(price, bid, ask);
+
+            if (validVolume) {
+                validVolumeCount++;
+
+                if (askFlag) {
+                    askFlagCount++;
+                    askFlagVolume += volume;
+                }
+                else {
+                    bidFlagCount++;
+                    bidFlagVolume += volume;
+                }
+            }
+            else {
+                invalidVolumeCount++;
+            }
+
+            switch (classification) {
+                case "AT_ASK":
+                    if (validVolume && askFlag) {
+                        strictAskCount++;
+                        strictAskVolume += volume;
+                    }
+                    else if (validVolume) {
+                        sideMismatchCount++;
+                        addUnclassified(true, volume);
+                    }
+                    else {
+                        addUnclassified(false, volume);
+                    }
+                    break;
+
+                case "AT_BID":
+                    if (validVolume && !askFlag) {
+                        strictBidCount++;
+                        strictBidVolume += volume;
+                    }
+                    else if (validVolume) {
+                        sideMismatchCount++;
+                        addUnclassified(true, volume);
+                    }
+                    else {
+                        addUnclassified(false, volume);
+                    }
+                    break;
+
+                case "OUTSIDE_QUOTE":
+                    outsideQuoteCount++;
+
+                    if (validVolume) {
+                        outsideQuoteVolume += volume;
+                    }
+
+                    addUnclassified(validVolume, volume);
+
+                    logAnomaly(
+                        "OUTSIDE_QUOTE",
+                        time, price, bid, ask, volume,
+                        askFlag, true
+                    );
+                    break;
+
+                case "INSIDE_SPREAD":
+                    insideSpreadCount++;
+                    addUnclassified(validVolume, volume);
+                    break;
+
+                case "LOCKED_QUOTE":
+                    lockedQuoteCount++;
+                    addUnclassified(validVolume, volume);
+                    break;
+
+                default:
+                    invalidQuoteCount++;
+                    addUnclassified(validVolume, volume);
+                    break;
+            }
+
+            checkAdjacent(
                 time, price, bid, ask, volume, askFlag
             );
 
-            if (validVolume) {
-                validVolumeTicks++;
-
-                if (askFlag) {
-                    askFlagTicks++;
-                    flagAskVolume += volume;
-                }
-                else {
-                    bidFlagTicks++;
-                    flagBidVolume += volume;
-                }
-            }
-            else {
-                invalidVolumeTicks++;
-            }
-
-            String priceClass = classifyPrice(price, bid, ask);
-
-            if ("LOCKED_QUOTE".equals(priceClass)) {
-                lockedQuoteTicks++;
-            }
-            else if ("INVALID_QUOTE".equals(priceClass)) {
-                invalidQuoteTicks++;
-            }
-            else if ("INSIDE_SPREAD".equals(priceClass)) {
-                insideSpreadTicks++;
-            }
-            else if ("OUTSIDE_QUOTE".equals(priceClass)) {
-                outsideQuoteTicks++;
-
-                if (validVolume) {
-                    outsideQuoteVolume += volume;
-
-                    if (askFlag) {
-                        outsideAskFlagTicks++;
-                        outsideAskFlagVolume += volume;
-                    }
-                    else {
-                        outsideBidFlagTicks++;
-                        outsideBidFlagVolume += volume;
-                    }
-                }
-
-                if (outsideExamplesLogged < MAX_OUTSIDE_EXAMPLES) {
-                    outsideExamplesLogged++;
-
-                    info(
-                        "GC Tick Outside Quote"
-                        + " | count=" + tickCount
-                        + " | time=" + time
-                        + " | price=" + price
-                        + " | bid=" + bid
-                        + " | ask=" + ask
-                        + " | volume=" + volume
-                        + " | isAskTick=" + askFlag
-                    );
-                }
-            }
-
-            // Strict delta: trade price and side flag must agree.
-            if (validVolume && "AT_ASK".equals(priceClass)) {
-                if (askFlag) {
-                    strictAskTicks++;
-                    strictAskVolume += volume;
-                }
-                else {
-                    sideMismatches++;
-                    unclassifiedTicks++;
-                    unclassifiedVolume += volume;
-                }
-            }
-            else if (validVolume && "AT_BID".equals(priceClass)) {
-                if (!askFlag) {
-                    strictBidTicks++;
-                    strictBidVolume += volume;
-                }
-                else {
-                    sideMismatches++;
-                    unclassifiedTicks++;
-                    unclassifiedVolume += volume;
-                }
-            }
-            else {
-                unclassifiedTicks++;
-
-                if (validVolume) {
-                    unclassifiedVolume += volume;
-                }
-            }
-
-            if (tickCount % SUMMARY_EVERY == 0) {
+            if (callbackCount % SUMMARY_EVERY == 0) {
                 logSummary();
             }
-            else if (tickCount % SAMPLE_EVERY == 0) {
+            else if (callbackCount % SAMPLE_EVERY == 0) {
                 info(
                     "GC Tick Sample"
-                    + " | count=" + tickCount
+                    + " | callback=" + callbackCount
                     + " | time=" + time
                     + " | price=" + price
                     + " | bid=" + bid
                     + " | ask=" + ask
                     + " | volume=" + volume
-                    + " | priceClass=" + priceClass
                     + " | isAskTick=" + askFlag
+                    + " | classification=" + classification
                 );
             }
         }
     }
 
-    private void checkAdjacentPatterns(
-        long time,
-        double price,
-        double bid,
-        double ask,
-        double volume,
-        boolean askFlag
+    private void addUnclassified(
+        boolean validVolume,
+        double volume
     ) {
-        boolean sameMarketFields =
-            havePreviousTick
-            && sameDouble(price, previousPrice)
-            && sameDouble(bid, previousBid)
-            && sameDouble(ask, previousAsk)
-            && sameDouble(volume, previousVolume)
-            && askFlag == previousAskFlag;
+        unclassifiedCount++;
 
-        boolean sameTimestamp =
-            sameMarketFields && time == previousTime;
-
-        if (sameMarketFields) {
-            adjacentMatchingFieldMatches++;
-            currentMatchingFieldRun++;
-
-            if (sameTimestamp) {
-                adjacentSameTimestampMatches++;
-            }
-            else {
-                adjacentDifferentTimestampMatches++;
-            }
-
-            if (currentMatchingFieldRun > longestMatchingFieldRun) {
-                longestMatchingFieldRun = currentMatchingFieldRun;
-                longestRunEndingAtTick = tickCount;
-                longestRunStartTime = previousTime;
-                longestRunEndTime = time;
-            }
-
-            if (repeatExamplesLogged < MAX_REPEAT_EXAMPLES) {
-                repeatExamplesLogged++;
-
-                String timestampType = sameTimestamp
-                    ? "SAME_TIMESTAMP"
-                    : "DIFFERENT_TIMESTAMP";
-
-                info(
-                    "GC Tick Adjacent Pattern"
-                    + " | tick=" + tickCount
-                    + " | type=" + timestampType
-                    + " | previousTime=" + previousTime
-                    + " | currentTime=" + time
-                    + " | price=" + price
-                    + " | bid=" + bid
-                    + " | ask=" + ask
-                    + " | volume=" + volume
-                    + " | isAskTick=" + askFlag
-                    + " | matchingFieldRun=" + currentMatchingFieldRun
-                );
-            }
+        if (validVolume) {
+            unclassifiedVolume += volume;
         }
-        else {
-            currentMatchingFieldRun = 1;
-        }
-
-        // Always remember the immediately preceding tick.
-        previousTime = time;
-        previousPrice = price;
-        previousBid = bid;
-        previousAsk = ask;
-        previousVolume = volume;
-        previousAskFlag = askFlag;
-        havePreviousTick = true;
     }
 
-    private boolean sameDouble(double a, double b) {
-        return Double.doubleToLongBits(a)
-            == Double.doubleToLongBits(b);
-    }
-
-    private String classifyPrice(
+    private String classify(
         double price,
         double bid,
         double ask
@@ -368,57 +233,135 @@ public class GCTickAudit extends Study {
         return "OUTSIDE_QUOTE";
     }
 
-    private void logSummary() {
-        double strictDelta = strictAskVolume - strictBidVolume;
-        double flagDelta = flagAskVolume - flagBidVolume;
-        double outsideFlagDelta =
-            outsideAskFlagVolume - outsideBidFlagVolume;
+    private void checkAdjacent(
+        long time,
+        double price,
+        double bid,
+        double ask,
+        double volume,
+        boolean askFlag
+    ) {
+        boolean sameFields =
+            havePrevious
+            && same(price, previousPrice)
+            && same(bid, previousBid)
+            && same(ask, previousAsk)
+            && same(volume, previousVolume)
+            && askFlag == previousAskFlag;
+
+        if (sameFields) {
+            matchingAdjacentCount++;
+            currentMatchRun++;
+
+            if (time == previousTime) {
+                sameTimestampMatchCount++;
+            }
+            else {
+                differentTimestampMatchCount++;
+            }
+
+            if (currentMatchRun > longestMatchRun) {
+                longestMatchRun = currentMatchRun;
+            }
+
+            logAnomaly(
+                time == previousTime
+                    ? "ADJACENT_MATCH_SAME_TIMESTAMP"
+                    : "ADJACENT_MATCH_DIFFERENT_TIMESTAMP",
+                time, price, bid, ask, volume, askFlag, false
+            );
+        }
+        else {
+            currentMatchRun = 1;
+        }
+
+        previousTime = time;
+        previousPrice = price;
+        previousBid = bid;
+        previousAsk = ask;
+        previousVolume = volume;
+        previousAskFlag = askFlag;
+        havePrevious = true;
+    }
+
+    private boolean same(double a, double b) {
+        return Double.doubleToLongBits(a)
+            == Double.doubleToLongBits(b);
+    }
+
+    private void logAnomaly(
+        String type,
+        long time,
+        double price,
+        double bid,
+        double ask,
+        double volume,
+        boolean askFlag,
+        boolean outsideQuoteExample
+    ) {
+        if (outsideQuoteExample) {
+            if (outsideExamplesLogged >= MAX_ANOMALY_EXAMPLES) {
+                return;
+            }
+
+            outsideExamplesLogged++;
+        }
+        else {
+            if (repeatExamplesLogged >= MAX_ANOMALY_EXAMPLES) {
+                return;
+            }
+
+            repeatExamplesLogged++;
+        }
 
         info(
-            "GC Tick Audit Summary"
-            + " | ticks=" + tickCount
-            + " | validVolumeTicks=" + validVolumeTicks
-            + " | invalidVolumeTicks=" + invalidVolumeTicks
+            "GC Tick Audit Example"
+            + " | type=" + type
+            + " | callback=" + callbackCount
+            + " | time=" + time
+            + " | price=" + price
+            + " | bid=" + bid
+            + " | ask=" + ask
+            + " | volume=" + volume
+            + " | isAskTick=" + askFlag
+        );
+    }
 
-            + " | strictAskTicks=" + strictAskTicks
-            + " | strictBidTicks=" + strictBidTicks
+    private void logSummary() {
+        info(
+            "GC Tick Audit Summary"
+            + " | callbacks=" + callbackCount
+            + " | validVolumeCallbacks=" + validVolumeCount
+            + " | invalidVolumeCallbacks=" + invalidVolumeCount
+
+            + " | askFlagCount=" + askFlagCount
+            + " | bidFlagCount=" + bidFlagCount
+            + " | askFlagVolume=" + askFlagVolume
+            + " | bidFlagVolume=" + bidFlagVolume
+            + " | flagDelta=" + (askFlagVolume - bidFlagVolume)
+
+            + " | strictAskCount=" + strictAskCount
+            + " | strictBidCount=" + strictBidCount
             + " | strictAskVolume=" + strictAskVolume
             + " | strictBidVolume=" + strictBidVolume
-            + " | strictDelta=" + strictDelta
+            + " | strictDelta=" + (strictAskVolume - strictBidVolume)
 
-            + " | askFlagTicks=" + askFlagTicks
-            + " | bidFlagTicks=" + bidFlagTicks
-            + " | flagAskVolume=" + flagAskVolume
-            + " | flagBidVolume=" + flagBidVolume
-            + " | flagDelta=" + flagDelta
-
-            + " | outsideQuoteTicks=" + outsideQuoteTicks
-            + " | outsideQuoteVolume=" + outsideQuoteVolume
-            + " | outsideAskFlagTicks=" + outsideAskFlagTicks
-            + " | outsideBidFlagTicks=" + outsideBidFlagTicks
-            + " | outsideAskFlagVolume=" + outsideAskFlagVolume
-            + " | outsideBidFlagVolume=" + outsideBidFlagVolume
-            + " | outsideFlagDelta=" + outsideFlagDelta
-
-            + " | unclassifiedTicks=" + unclassifiedTicks
+            + " | unclassifiedCount=" + unclassifiedCount
             + " | unclassifiedVolume=" + unclassifiedVolume
-            + " | sideMismatches=" + sideMismatches
-            + " | insideSpread=" + insideSpreadTicks
-            + " | lockedQuote=" + lockedQuoteTicks
-            + " | invalidQuote=" + invalidQuoteTicks
+            + " | sideMismatchCount=" + sideMismatchCount
 
-            + " | adjacentMatchingFieldMatches="
-            + adjacentMatchingFieldMatches
-            + " | adjacentSameTimestampMatches="
-            + adjacentSameTimestampMatches
-            + " | adjacentDifferentTimestampMatches="
-            + adjacentDifferentTimestampMatches
-            + " | currentMatchingFieldRun=" + currentMatchingFieldRun
-            + " | longestMatchingFieldRun=" + longestMatchingFieldRun
-            + " | longestRunEndingAtTick=" + longestRunEndingAtTick
-            + " | longestRunStartTime=" + longestRunStartTime
-            + " | longestRunEndTime=" + longestRunEndTime
-            + " | repeatExamplesLogged=" + repeatExamplesLogged
+            + " | outsideQuoteCount=" + outsideQuoteCount
+            + " | outsideQuoteVolume=" + outsideQuoteVolume
+            + " | insideSpreadCount=" + insideSpreadCount
+            + " | lockedQuoteCount=" + lockedQuoteCount
+            + " | invalidQuoteCount=" + invalidQuoteCount
+
+            + " | matchingAdjacentCount=" + matchingAdjacentCount
+            + " | sameTimestampMatches=" + sameTimestampMatchCount
+            + " | differentTimestampMatches="
+            + differentTimestampMatchCount
+            + " | currentMatchRun=" + currentMatchRun
+            + " | longestMatchRun=" + longestMatchRun
         );
     }
 }
