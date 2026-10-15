@@ -1,4 +1,3 @@
-
 package study_examples;
 
 import com.motivewave.platform.sdk.common.DataContext;
@@ -61,7 +60,7 @@ public class GCTickAudit extends Study {
     private long invalidQuoteTicks;
     private long sideMismatches;
 
-    // Consecutive identical-signature diagnostic.
+    // Previous tick fields for adjacent-pattern diagnostics.
     private boolean havePreviousTick;
     private long previousTime;
     private double previousPrice;
@@ -70,7 +69,22 @@ public class GCTickAudit extends Study {
     private double previousVolume;
     private boolean previousAskFlag;
 
-    private long adjacentRepeatMatches;
+    // Adjacent matches with identical market fields and the same timestamp.
+    private long adjacentSameTimestampMatches;
+
+    // Adjacent matches with identical market fields but different timestamps.
+    private long adjacentDifferentTimestampMatches;
+
+    // All adjacent matches on market fields, regardless of timestamp.
+    private long adjacentMatchingFieldMatches;
+
+    // Consecutive run length of matching market fields.
+    private long currentMatchingFieldRun;
+    private long longestMatchingFieldRun;
+    private long longestRunEndingAtTick;
+    private long longestRunStartTime;
+    private long longestRunEndTime;
+
     private int repeatExamplesLogged;
     private int outsideExamplesLogged;
 
@@ -129,8 +143,8 @@ public class GCTickAudit extends Study {
             boolean validVolume =
                 Double.isFinite(volume) && volume > 0.0;
 
-            // Diagnostic only: never discard or merge a tick.
-            checkAdjacentRepeat(
+            // Diagnostic only: never discard, merge, or alter a tick.
+            checkAdjacentPatterns(
                 time, price, bid, ask, volume, askFlag
             );
 
@@ -193,7 +207,7 @@ public class GCTickAudit extends Study {
                 }
             }
 
-            // Strict measurement: price and side flag must agree.
+            // Strict delta: trade price and side flag must agree.
             if (validVolume && "AT_ASK".equals(priceClass)) {
                 if (askFlag) {
                     strictAskTicks++;
@@ -243,7 +257,7 @@ public class GCTickAudit extends Study {
         }
     }
 
-    private void checkAdjacentRepeat(
+    private void checkAdjacentPatterns(
         long time,
         double price,
         double bid,
@@ -251,37 +265,62 @@ public class GCTickAudit extends Study {
         double volume,
         boolean askFlag
     ) {
-        boolean sameAsPrevious =
+        boolean sameMarketFields =
             havePreviousTick
-            && time == previousTime
             && sameDouble(price, previousPrice)
             && sameDouble(bid, previousBid)
             && sameDouble(ask, previousAsk)
             && sameDouble(volume, previousVolume)
             && askFlag == previousAskFlag;
 
-        if (sameAsPrevious) {
-            adjacentRepeatMatches++;
+        boolean sameTimestamp =
+            sameMarketFields && time == previousTime;
+
+        if (sameMarketFields) {
+            adjacentMatchingFieldMatches++;
+            currentMatchingFieldRun++;
+
+            if (sameTimestamp) {
+                adjacentSameTimestampMatches++;
+            }
+            else {
+                adjacentDifferentTimestampMatches++;
+            }
+
+            if (currentMatchingFieldRun > longestMatchingFieldRun) {
+                longestMatchingFieldRun = currentMatchingFieldRun;
+                longestRunEndingAtTick = tickCount;
+                longestRunStartTime = previousTime;
+                longestRunEndTime = time;
+            }
 
             if (repeatExamplesLogged < MAX_REPEAT_EXAMPLES) {
                 repeatExamplesLogged++;
 
+                String timestampType = sameTimestamp
+                    ? "SAME_TIMESTAMP"
+                    : "DIFFERENT_TIMESTAMP";
+
                 info(
-                    "GC Tick Adjacent Repeat Pattern"
-                    + " | count=" + tickCount
-                    + " | time=" + time
+                    "GC Tick Adjacent Pattern"
+                    + " | tick=" + tickCount
+                    + " | type=" + timestampType
+                    + " | previousTime=" + previousTime
+                    + " | currentTime=" + time
                     + " | price=" + price
                     + " | bid=" + bid
                     + " | ask=" + ask
                     + " | volume=" + volume
                     + " | isAskTick=" + askFlag
-                    + " | matchingPrevious=true"
+                    + " | matchingFieldRun=" + currentMatchingFieldRun
                 );
             }
         }
+        else {
+            currentMatchingFieldRun = 1;
+        }
 
-        // Always remember the immediately preceding tick,
-        // including ticks with invalid volume or quotes.
+        // Always remember the immediately preceding tick.
         previousTime = time;
         previousPrice = price;
         previousBid = bid;
@@ -368,7 +407,17 @@ public class GCTickAudit extends Study {
             + " | lockedQuote=" + lockedQuoteTicks
             + " | invalidQuote=" + invalidQuoteTicks
 
-            + " | adjacentRepeatMatches=" + adjacentRepeatMatches
+            + " | adjacentMatchingFieldMatches="
+            + adjacentMatchingFieldMatches
+            + " | adjacentSameTimestampMatches="
+            + adjacentSameTimestampMatches
+            + " | adjacentDifferentTimestampMatches="
+            + adjacentDifferentTimestampMatches
+            + " | currentMatchingFieldRun=" + currentMatchingFieldRun
+            + " | longestMatchingFieldRun=" + longestMatchingFieldRun
+            + " | longestRunEndingAtTick=" + longestRunEndingAtTick
+            + " | longestRunStartTime=" + longestRunStartTime
+            + " | longestRunEndTime=" + longestRunEndTime
             + " | repeatExamplesLogged=" + repeatExamplesLogged
         );
     }
